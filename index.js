@@ -14,10 +14,11 @@ function _numberZero(n, needLength) {
 }
 
 function GSClass(options,execOptions){
-	this.before_exec ='';
+	/*this.before_exec ='';
 	if(execOptions && execOptions.reduced_load){
 		this.before_exec = 'nice -10 ';
 	}
+	*/
 
 	this._execPath ='gs';
 	if(process.platform=='win32' || process.platform=='win64'){
@@ -31,7 +32,7 @@ function GSClass(options,execOptions){
 }
 
 GSClass.prototype.exec = function(pdfFile,options,onComplete) {
-  exec(this.before_exec+pathGSexe+' '+ options.join(' ')+' '+pdfFile , (err) =>{
+  exec(/*this.before_exec+*/pathGSexe+' '+ options.join(' ')+' '+pdfFile , (err) =>{
     if (err) return onComplete(err);
     onComplete(err,true)
   });
