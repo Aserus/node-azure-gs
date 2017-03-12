@@ -32,14 +32,17 @@ function GSClass(options,execOptions){
 }
 
 GSClass.prototype.exec = function(pdfFile,options,onComplete) {
-  exec(/*this.before_exec+*/pathGSexe+' '+ options.join(' ')+' '+pdfFile , (err) =>{
+  exec(/*this.before_exec+*/this._execPath+' '+ options.join(' ')+' '+pdfFile , (err) =>{
     if (err) return onComplete(err);
     onComplete(err,true)
   });
 }
 
-GSClass.prototype.pdfPageToImage = function(file,outfile,page,onComplete) {
+
+
+GSClass.prototype.pdfToImages = function(file,outMask,start,end,onComplete) {
   var command=[];
+	if(!start) start = 0;
 
   command.push('-dNOPAUSE');
   command.push('-k64MiB');
@@ -53,35 +56,8 @@ GSClass.prototype.pdfPageToImage = function(file,outfile,page,onComplete) {
   command.push('-dGraphicsAlphaBits=4');
   command.push('-dMaxStripSize=8192');
 
-  command.push('-dFirstPage='+page);
-  command.push('-dLastPage='+page);
-
-
-  command.push('-sOutputFile='+outfile);
-
-  this.exec(file,command,(err)=>{
-    onComplete(err,outfile)
-  });
-}
-
-
-GSClass.prototype.pdfToImages = function(file,outMask,end,onComplete) {
-  var command=[];
-
-  command.push('-dNOPAUSE');
-  command.push('-k64MiB');
-  command.push('-dSAFER');
-  command.push('-dBATCH');
-  command.push('-sDEVICE=png16m');
-  command.push('-r192');
-  command.push('-dUseCIEColor');
-  command.push('-dGridFitTT=2');
-  command.push('-dTextAlphaBits=4');
-  command.push('-dGraphicsAlphaBits=4');
-  command.push('-dMaxStripSize=8192');
-
-  command.push('-dFirstPage='+1);
-  command.push('-dLastPage='+end);
+  command.push('-dFirstPage='+(start+1));
+  command.push('-dLastPage='+(end+1));
 
   outMask+= '_%03d';
   command.push('-sOutputFile='+outMask);
@@ -89,8 +65,8 @@ GSClass.prototype.pdfToImages = function(file,outMask,end,onComplete) {
   this.exec(file,command,(err)=>{
 
     var list = [];
-    for (var i = 1; i<=end; i++){
-      list.push(outMask.replace('%03d',_numberZero(i,3)));
+    for (var i = start; i<=end; i++){
+      list.push(outMask.replace('%03d',_numberZero(i+1,3)));
     }
 
     onComplete(err,list)

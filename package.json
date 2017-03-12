@@ -1,6 +1,6 @@
 { "name"        : "azure-gs"
 , "description" : "A wrapper around the ghostscript cli (parent - ghostscript)"
-, "version"     : "0.4.1"
+, "version"     : "0.4.2"
 , "author"      : "Warus <http://firebyte.ru>"
 , "licenses"    : ["MIT"]
 , "repository"  : { "type" : "git"
