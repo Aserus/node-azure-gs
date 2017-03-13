@@ -23,9 +23,9 @@ function GSClass(options,execOptions){
 	this._execPath ='gs';
 	if(process.platform=='win32' || process.platform=='win64'){
 		if(process.arch=='x64'){
-			this._execPath =path.join(__dirname,'common/gs/bin64/gswin64c');
+			this._execPath =path.join(__dirname,'common/gs64/bin/gswin64c');
 		}else{
-			this._execPath =path.join(__dirname,'common/gs/bin32/gswin32c');
+			this._execPath =path.join(__dirname,'common/gs32/bin/gswin32c');
 		}
 	}
 
