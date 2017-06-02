@@ -65,7 +65,8 @@ GSClass.prototype.pdfToImages = function(file,outMask,start,end,onComplete) {
   this.exec(file,command,(err)=>{
 
     var list = [];
-    for (var i = start; i<=end; i++){
+		var count = (end-start+1);
+    for (var i = 1; i<=count; i++){
       list.push(outMask.replace('%03d',_numberZero(i+1,3)));
     }
 
