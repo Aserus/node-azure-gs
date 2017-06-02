@@ -19,7 +19,7 @@ function GSClass(options,execOptions){
 		this.before_exec = 'nice -10 ';
 	}
 	*/
-
+	this._execCount = 0;
 	this._execPath ='gs';
 	if(process.platform=='win32' || process.platform=='win64'){
 		if(process.arch=='x64'){
@@ -32,6 +32,7 @@ function GSClass(options,execOptions){
 }
 
 GSClass.prototype.exec = function(pdfFile,options,onComplete) {
+	this._execCount++;
   exec(/*this.before_exec+*/this._execPath+' '+ options.join(' ')+' '+pdfFile , (err) =>{
     if (err) return onComplete(err);
     onComplete(err,true)
@@ -59,6 +60,7 @@ GSClass.prototype.pdfToImages = function(file,outMask,start,end,onComplete) {
   command.push('-dFirstPage='+(start+1));
   command.push('-dLastPage='+(end+1));
 
+  outMask+= '_'+this._execCount;
   outMask+= '_%03d';
   command.push('-sOutputFile='+outMask);
 
