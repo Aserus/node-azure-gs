@@ -60,7 +60,7 @@ GSClass.prototype.pdfToImages = function(file,outMask,start,end,onComplete) {
   command.push('-dFirstPage='+(start+1));
   command.push('-dLastPage='+(end+1));
 
-  outMask+= '_'+this._execCount;
+  outMask+= '_s'+start;
   outMask+= '_%03d';
   command.push('-sOutputFile='+outMask);
 
